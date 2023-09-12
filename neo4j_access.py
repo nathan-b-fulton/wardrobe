@@ -1,4 +1,4 @@
-from neo4j import GraphDatabase, Driver, EagerResult, ResultSummary
+from neo4j import GraphDatabase, Driver, Result
 import streamlit as st
 import pandas as pd
 
@@ -22,28 +22,30 @@ def neo4jTest():
 @st.cache_data
 def getOptions(_graph:Driver, label:str):
     ""
+    options = None
     q = "MATCH (n:" + label + ") RETURN n"
     records, summary, keys = _graph.execute_query(
         q,
         database_="neo4j"
     )
-    o = []
-    for record in records:
-        rDict = record.data()
-        o.append(rDict["n"])
-    options = pd.DataFrame.from_dict(o)
-    nList = options.columns.tolist()
-    nList.remove("Name")
-    cols = ["Name"] + nList
-    options = options[cols]
+    if records:
+        o = []
+        for record in records:
+            rDict = record.data()
+            o.append(rDict["n"])
+        options = pd.DataFrame.from_dict(o)
+        nList = options.columns.tolist()
+        nList.remove("Name")
+        cols = ["Name"] + nList
+        options = options[cols]
     return options
 
 
 def initializeChar(graph:Driver, name:str, id:str):
     ""
     q = """
-    CREATE (c:CHARACTER { uuid:$id })
-    SET c.name = $name
+    CREATE (c:CHARACTER { UUID:$id })
+    SET c.Name = $name
     """
     summary = graph.execute_query(
         q,
@@ -53,5 +55,19 @@ def initializeChar(graph:Driver, name:str, id:str):
     ).summary
     return summary.counters.nodes_created
 
+
+def retrieveChar(graph:Driver, id:str):
+    ""
+    q = """
+    MATCH (:CHARACTER { UUID:$id })-[r]->(s)
+    RETURN TYPE(r) AS facet, s.UUID AS focus
+    """
+    df = graph.execute_query(
+        q,
+        id=id,
+        database_="neo4j",
+        result_transformer_=Result.to_df
+    )
+    return df
 
 # neo4jTest()
