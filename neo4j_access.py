@@ -24,10 +24,10 @@ def getOptions(_graph:Driver, label:str):
     ""
     options = None
     q = "MATCH (n:" + label + ") RETURN n"
-    records, summary, keys = _graph.execute_query(
+    records = _graph.execute_query(
         q,
         database_="neo4j"
-    )
+    ).records
     if records:
         o = []
         for record in records:
@@ -41,13 +41,79 @@ def getOptions(_graph:Driver, label:str):
     return options
 
 
-def initializeChar(graph:Driver, name:str, id:str):
+@st.cache_data
+def getChoices(_graph:Driver, id:str):
+    ""
+    q = "MATCH ({ UUID:$id })-[:PROVIDES_CHOICE]->(c:CHOICE)-[:HAS_OPTION]->(o) RETURN o.Name AS Name, o.UUID AS id, labels(o)[0] AS type, c.UUID AS choice"
+    df = _graph.execute_query(
+        q,
+        id=id,
+        database_="neo4j",
+        result_transformer_=Result.to_df
+    )
+    return df
+
+
+@st.cache_data
+def getIncreases(_graph:Driver, id:str):
+    ""
+    q = "MATCH ({ UUID:$id })-[:INCREASES]->(a:ABILITY) RETURN a.Name AS Name, a.UUID AS id"
+    df = _graph.execute_query(
+        q,
+        id=id,
+        database_="neo4j",
+        result_transformer_=Result.to_df
+    )
+    return df
+
+
+@st.cache_data
+def getDecreases(_graph:Driver, id:str):
+    ""
+    q = "MATCH ({ UUID:$id })-[:DECREASES]->(a:ABILITY) RETURN a.Name AS Name, a.UUID AS id"
+    df = _graph.execute_query(
+        q,
+        id=id,
+        database_="neo4j",
+        result_transformer_=Result.to_df
+    )
+    return df
+
+
+@st.cache_data
+def getCompetencies(_graph:Driver, id:str):
+    ""
+    q = "MATCH ({ UUID:$id })-[:PROVIDES_COMPETENCE]->(c:COMPETENCE) RETURN c.UUID AS id"
+    df = _graph.execute_query(
+        q,
+        id=id,
+        database_="neo4j",
+        result_transformer_=Result.to_df
+    )
+    return df
+
+
+@st.cache_data
+def parseComp(_graph:Driver, id:str):
+    ""
+    q = "MATCH (t)<-[:TOPIC]-(:COMPETENCE { UUID:$id })-[:LEVEL]->(l:PROFICIENCY) RETURN l.Name + ' in ' + t.Name AS parsed"
+    comp = _graph.execute_query(
+        q,
+        id=id,
+        database_="neo4j"
+    ).records
+    d = comp[0].data()
+    final = d["parsed"]
+    return final
+
+
+def initializeChar(_graph:Driver, name:str, id:str):
     ""
     q = """
     CREATE (c:CHARACTER { UUID:$id })
     SET c.Name = $name
     """
-    summary = graph.execute_query(
+    summary = _graph.execute_query(
         q,
         id=id,
         name=name,
