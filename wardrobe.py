@@ -1,4 +1,4 @@
-from neo4j_access import openGraph, getOptions, initializeChar, retrieveChar, getChoices, getIncreases, getDecreases, getCompetencies, parseComp
+from neo4j_access import *
 from stock_names import stockNames
 import streamlit as st
 import uuid
@@ -16,6 +16,24 @@ def setName(name=random.choice(stockNames), id=None):
     name = st.text_input("Please accept this name for your character, or replace it with a preferred name and hit *enter*.", name, on_change=setName, args=(name, id))
     st.button("Create " + name, on_click=initializeChar, args=(graph,name,id))
     return id
+
+
+def setComponent(BACKGROUND=None, TROPE=None, COMPETENCE=None, SKILL_FEAT=None, ABILITY=None):
+    ""
+    comp = str(uuid.uuid4())
+    char = st.session_state['char']
+    if BACKGROUND is not None:
+        setBGForChar(graph, char, BACKGROUND, comp)
+        if COMPETENCE is not None:
+            for c in COMPETENCE:
+                attachSelection(graph, c, comp)
+        if SKILL_FEAT is not None:
+            for s in SKILL_FEAT:
+                attachSelection(graph, s, comp)
+    elif TROPE is not None:
+        setTropeForChar(graph, char, TROPE, comp)
+    for a in ABILITY:
+        attachSelection(graph, a, comp)
 
 
 with st.sidebar:
@@ -39,7 +57,6 @@ with st.sidebar:
             charParts[part] = st.button(action + cased, type=bType)
             
 
-
 if initialize:
     st.session_state['char'] = setName()
 elif 'char' in st.session_state:
@@ -49,7 +66,10 @@ elif 'char' in st.session_state:
     if 'part' in st.session_state:
         part = st.session_state['part']
         options = getOptions(graph, part)
-        choice = st.selectbox("Please select a " + part.lower() + " for your character:", options)
+        selections = {}
+        smallPart = part.lower()
+        choice = st.selectbox("Please select a " + smallPart + " for your character:", options)
+        selections[part] = options.loc[options['Name'] == choice, 'UUID'].iloc[0]
         details = options.loc[options['Name'] == choice]
         cols = options.columns.tolist()
         cols.remove('UUID')
@@ -77,21 +97,23 @@ elif 'char' in st.session_state:
         df = getChoices(graph, id)
         groups = df.groupby('choice')
         choices = df.choice.unique()
-        selections = {}
         for c in choices:
             options = groups.get_group(c)
-            type = options.type.unique()[0]
-            if type == 'COMPETENCE':
+            choiceType = options.type.unique()[0]
+            if choiceType == 'COMPETENCE':
                 for i in options.index:
                     parsed = parseComp(graph, options['id'][i])
-                    options['Name'][i] = parsed
-            prev = selections.get(type)
-            if prev is None:
-                selections[type] = []
-            else:
-                options.drop(options[options['Name'] == prev[0]].index)
+                    options.loc[i]['Name'] = parsed
+            if choiceType in st.session_state:
+                options = options.drop(options[options['Name'] == st.session_state[choiceType][0]].index)
             s = st.selectbox('Please select one.', options)
-            selections[type].append(s)
+            suuid = options.loc[options['Name'] == s, 'id'].iloc[0]
+            selections[choiceType] = [suuid]
+            if choiceType in st.session_state:
+                selections[choiceType].append(st.session_state[choiceType][1])
+            if df['type'].value_counts()[choiceType] > len(options):
+                st.session_state[choiceType] = [s, suuid]
+        st.button("Confirm {} as the {} for {}".format(choice, smallPart, st.session_state['char']), on_click=setComponent, kwargs=selections)
 else:
     st.markdown(" ## Please select or create a character.")
 

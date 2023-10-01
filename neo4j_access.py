@@ -102,8 +102,10 @@ def parseComp(_graph:Driver, id:str):
         id=id,
         database_="neo4j"
     ).records
-    d = comp[0].data()
-    final = d["parsed"]
+    final = "OH NO: {} does not seem to be a valid competence specification.".format(id)
+    if len(comp) > 0:
+        d = comp[0].data()
+        final = d["parsed"]
     return final
 
 
@@ -122,18 +124,79 @@ def initializeChar(_graph:Driver, name:str, id:str):
     return summary.counters.nodes_created
 
 
-def retrieveChar(graph:Driver, id:str):
+def retrieveChar(graph:Driver, char:str):
     ""
     q = """
-    MATCH (:CHARACTER { UUID:$id })-[r]->(s)
-    RETURN TYPE(r) AS facet, s.UUID AS focus
+    MATCH (:CHARACTER { Name:$char })-[:HAS]->(c:COMPONENT)-[r]->(s)
+    RETURN c.UUID AS component, TYPE(r) AS facet, s.UUID AS focus
     """
     df = graph.execute_query(
         q,
-        id=id,
+        char=char,
         database_="neo4j",
         result_transformer_=Result.to_df
     )
     return df
+
+
+def setBGForChar(graph:Driver, char:str, bg:str, comp:str):
+    ""
+    q = """
+    MERGE (co:COMPONENT { UUID:$comp })
+    WITH co
+    MATCH (ch:CHARACTER { Name:$char })
+    MATCH (b:BACKGROUND { UUID:$bg })
+    CREATE (ch)-[:HAS]->(co)-[:BACKGROUND]->(b)
+    RETURN co.UUID AS component
+    """
+    co = graph.execute_query(
+        q,
+        char=char,
+        bg=bg,
+        comp=comp,
+        database_="neo4j"
+    ).records
+    d = co[0].data()
+    final = d["component"]
+    return final
+
+
+def setTropeForChar(graph:Driver, char:str, tr:str, comp:str):
+    ""
+    q = """
+    MERGE (co:COMPONENT { UUID:$comp })
+    WITH co
+    MATCH (ch:CHARACTER { Name:$char })
+    MATCH (t:TROPE { UUID:$tr })
+    CREATE (ch)-[:HAS]->(co)-[:TROPE]->(t)
+    RETURN co.UUID AS component
+    """
+    co = graph.execute_query(
+        q,
+        char=char,
+        tr=tr,
+        comp=comp,
+        database_="neo4j"
+    ).records
+    d = co[0].data()
+    final = d["component"]
+    return final
+
+
+def attachSelection(graph:Driver, sel:str, comp:str):
+    ""
+    q = """
+    MATCH (c:COMPONENT { UUID:$comp })
+    MATCH (s { UUID:$sel })
+    CREATE (c)-[:SELECTED]->(s)
+    """
+    s = graph.execute_query(
+        q,
+        sel=sel,
+        comp=comp,
+        database_="neo4j"
+    ).summary
+    return s.counters.relationships_created
+
 
 # neo4jTest()
