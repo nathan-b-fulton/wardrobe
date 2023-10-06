@@ -139,6 +139,26 @@ def retrieveChar(graph:Driver, char:str):
     return df
 
 
+def retrieveInt(graph:Driver, char:str):
+    ""
+    q = """
+    MATCH (:CHARACTER { Name:$char })-[:HAS]->(c:COMPONENT)-[*1..2]->(:ABILITY {UUID: 'e74196a1-f693-474c-a5db-4e36ae71274e'}) 
+    WHERE NOT (c)-[:DETAILS]->(:DETAILS)
+    RETURN COUNT(c) AS boosts
+    """
+    boosts = graph.execute_query(
+        q,
+        char=char,
+        database_="neo4j"
+    ).records
+    final = "OH NO: {} does not seem to be a valid competence specification.".format(id)
+    if len(boosts) > 0:
+        d = boosts[0].data()
+        final = d["boosts"]
+    else: final = 0
+    return final
+
+
 def setBGForChar(graph:Driver, char:str, bg:str, comp:str):
     ""
     q = """

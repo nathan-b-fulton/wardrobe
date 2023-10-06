@@ -20,20 +20,20 @@ def setName(name=random.choice(stockNames), id=None):
 
 def setComponent(BACKGROUND=None, TROPE=None, COMPETENCE=None, SKILL_FEAT=None, ABILITY=None):
     ""
-    comp = str(uuid.uuid4())
+    component = str(uuid.uuid4())
     char = st.session_state['char']
     if BACKGROUND is not None:
-        setBGForChar(graph, char, BACKGROUND, comp)
-        if COMPETENCE is not None:
-            for c in COMPETENCE:
-                attachSelection(graph, c, comp)
+        setBGForChar(graph, char, BACKGROUND, component)
         if SKILL_FEAT is not None:
             for s in SKILL_FEAT:
-                attachSelection(graph, s, comp)
+                attachSelection(graph, s, component)
     elif TROPE is not None:
-        setTropeForChar(graph, char, TROPE, comp)
+        setTropeForChar(graph, char, TROPE, component)
     for a in ABILITY:
-        attachSelection(graph, a, comp)
+        attachSelection(graph, a, component)
+    if COMPETENCE is not None:
+            for c in COMPETENCE:
+                attachSelection(graph, c, component)
 
 
 with st.sidebar:
@@ -65,55 +65,74 @@ elif 'char' in st.session_state:
             st.session_state['part'] = part
     if 'part' in st.session_state:
         part = st.session_state['part']
-        options = getOptions(graph, part)
+        id = 'f1904c15-e2f1-4be2-ab66-da8b518b21a4'
+        if part != 'DETAILS':
+            options = getOptions(graph, part)
+            smallPart = part.lower()
+            choice = st.selectbox("Please select a " + smallPart + " for your character:", options)
+            details = options.loc[options['Name'] == choice]
+            cols = options.columns.tolist()
+            cols.remove('UUID')
+            for col in cols:
+                st.write("*"+col+"*: ", str(details[col].iloc[0]))
+            id = details['UUID'].iloc[0]
+            inc = getIncreases(graph, id)
+            if not inc.empty:
+                incs = ""
+                for i in inc.index:
+                    incs = incs + inc['Name'][i] + ', '
+                incs = incs.rstrip(', ')
+                st.write("Increases: ", incs)
+            dec = getDecreases(graph, id)
+            if not dec.empty:
+                st.write("Decreases: ", dec['Name'][0])
+            comp = getCompetencies(graph, id)
+            if not comp.empty:
+                comps = ""
+                for i in comp.index:
+                    parsed = parseComp(graph, comp['id'][i])
+                    comps = comps + parsed + ', '
+                comps = comps.rstrip(', ')
+                st.write(comps)
         selections = {}
-        smallPart = part.lower()
-        choice = st.selectbox("Please select a " + smallPart + " for your character:", options)
-        selections[part] = options.loc[options['Name'] == choice, 'UUID'].iloc[0]
-        details = options.loc[options['Name'] == choice]
-        cols = options.columns.tolist()
-        cols.remove('UUID')
-        for col in cols:
-            st.write("*"+col+"*: ", str(details[col].iloc[0]))
-        id = details['UUID'].iloc[0]
-        inc = getIncreases(graph, id)
-        if not inc.empty:
-            incs = ""
-            for i in inc.index:
-                incs = incs + inc['Name'][i] + ', '
-            incs = incs.rstrip(', ')
-            st.write("Increases: ", incs)
-        dec = getDecreases(graph, id)
-        if not dec.empty:
-            st.write("Decreases: ", dec['Name'][0])
-        comp = getCompetencies(graph, id)
-        if not comp.empty:
-            comps = ""
-            for i in comp.index:
-                parsed = parseComp(graph, comp['id'][i])
-                comps = comps + parsed + ', '
-            comps = comps.rstrip(', ')
-            st.write(comps)
+        if 'selections' in st.session_state:
+            selections = st.session_state['selections']
+        selections[part] = id
         df = getChoices(graph, id)
         groups = df.groupby('choice')
         choices = df.choice.unique()
         for c in choices:
+            count = 1
             options = groups.get_group(c)
             choiceType = options.type.unique()[0]
+            if selections.get(choiceType) is None:
+                selections[choiceType] = {}
+            choicesInType = df.loc[df['type'] == choiceType]['choice'].unique()
             if choiceType == 'COMPETENCE':
                 for i in options.index:
                     parsed = parseComp(graph, options['id'][i])
                     options.loc[i]['Name'] = parsed
-            if choiceType in st.session_state:
-                options = options.drop(options[options['Name'] == st.session_state[choiceType][0]].index)
-            s = st.selectbox('Please select one.', options)
-            suuid = options.loc[options['Name'] == s, 'id'].iloc[0]
-            selections[choiceType] = [suuid]
-            if choiceType in st.session_state:
-                selections[choiceType].append(st.session_state[choiceType][1])
-            if df['type'].value_counts()[choiceType] > len(options):
-                st.session_state[choiceType] = [s, suuid]
-        st.button("Confirm {} as the {} for {}".format(choice, smallPart, st.session_state['char']), on_click=setComponent, kwargs=selections)
+                if part == 'DETAILS':
+                    count = 2 + retrieveInt(graph, st.session_state['char'])
+                    if 'e74196a1-f693-474c-a5db-4e36ae71274e' in selections['ABILITY']:
+                        count+=1
+            for x in range(count):
+                for option in selections[choiceType]:
+                    if len(options) > 1:
+                        options = options.drop(options[options['id'] == option].index)
+                s = st.selectbox('Please select one.', options, index=None, key = c + str(x))
+                if s is not None:
+                    suuid = options.loc[options['Name'] == s, 'id'].iloc[0]
+                    limit = count + len(choicesInType) - 1
+                    selections[choiceType][suuid] = s
+                    if len(selections[choiceType]) > limit:
+                        selections[choiceType].pop(list(selections[choiceType].keys())[0])
+        st.session_state['selections'] = selections
+        selections
+        if part == 'DETAILS':
+            st.button("Confirm these selections for {}".format(st.session_state['char']), on_click=setComponent, kwargs=selections)
+        else:
+            st.button("Confirm {} as the {} for {}".format(choice, smallPart, st.session_state['char']), on_click=setComponent, kwargs=selections)
 else:
     st.markdown(" ## Please select or create a character.")
 
