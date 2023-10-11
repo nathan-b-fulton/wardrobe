@@ -3,6 +3,7 @@ from stock_names import stockNames
 import streamlit as st
 import uuid
 import random
+import numpy as np
 
 
 graph = openGraph()
@@ -18,7 +19,7 @@ def setName(name=random.choice(stockNames), id=None):
     return id
 
 
-def setComponent(BACKGROUND=None, TROPE=None, COMPETENCE=None, SKILL_FEAT=None, ABILITY=None):
+def setComponent(BACKGROUND=None, TROPE=None, COMPETENCE=None, SKILL_FEAT=None, ABILITY=None, DETAILS=None):
     ""
     component = str(uuid.uuid4())
     char = st.session_state['char']
@@ -29,6 +30,8 @@ def setComponent(BACKGROUND=None, TROPE=None, COMPETENCE=None, SKILL_FEAT=None, 
                 attachSelection(graph, s, component)
     elif TROPE is not None:
         setTropeForChar(graph, char, TROPE, component)
+    elif DETAILS is not None:
+        setDetailsForChar(graph, char, component)
     for a in ABILITY:
         attachSelection(graph, a, component)
     if COMPETENCE is not None:
@@ -100,7 +103,7 @@ elif 'char' in st.session_state:
         selections[part] = id
         df = getChoices(graph, id)
         groups = df.groupby('choice')
-        choices = df.choice.unique()
+        choices = groups.groups.keys()
         for c in choices:
             count = 1
             options = groups.get_group(c)
@@ -117,16 +120,26 @@ elif 'char' in st.session_state:
                     if 'e74196a1-f693-474c-a5db-4e36ae71274e' in selections['ABILITY']:
                         count+=1
             for x in range(count):
-                for option in selections[choiceType]:
-                    if len(options) > 1:
-                        options = options.drop(options[options['id'] == option].index)
-                s = st.selectbox('Please select one.', options, index=None, key = c + str(x))
+                initial = None
+                this_sel = None
+                if choiceType in selections and len(selections[choiceType]) > 0:
+                    current =  list(selections[choiceType].values())
+                    y = len(current) - 1
+                    z = y if x > y else x
+                    this_sel = current[z]
+                    ops = list(options['Name'])
+                    if this_sel in ops:
+                        initial = ops.index(this_sel)
+                s = st.selectbox('Please select one.', options, index=initial, key = c + str(x),placeholder="Select {}".format(choiceType.lower()))
                 if s is not None:
                     suuid = options.loc[options['Name'] == s, 'id'].iloc[0]
                     limit = count + len(choicesInType) - 1
                     selections[choiceType][suuid] = s
                     if len(selections[choiceType]) > limit:
-                        selections[choiceType].pop(list(selections[choiceType].keys())[0])
+                         selections[choiceType].pop(list(selections[choiceType].keys())[0])
+                    df = df.drop(df[df['id'] == suuid].index)
+                    groups = df.groupby('choice')
+                    options = options.drop(options[options['id'] == suuid].index)
         st.session_state['selections'] = selections
         selections
         if part == 'DETAILS':

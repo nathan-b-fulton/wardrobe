@@ -203,6 +203,27 @@ def setTropeForChar(graph:Driver, char:str, tr:str, comp:str):
     return final
 
 
+def setDetailsForChar(graph:Driver, char:str, comp:str):
+    ""
+    q = """
+    MERGE (co:COMPONENT { UUID:$comp })
+    WITH co
+    MATCH (ch:CHARACTER { Name:$char })
+    MATCH (d:DETAILS { UUID:'f1904c15-e2f1-4be2-ab66-da8b518b21a4' })
+    CREATE (ch)-[:HAS]->(co)-[:DETAILS]->(d)
+    RETURN co.UUID AS component
+    """
+    co = graph.execute_query(
+        q,
+        char=char,
+        comp=comp,
+        database_="neo4j"
+    ).records
+    d = co[0].data()
+    final = d["component"]
+    return final
+
+
 def attachSelection(graph:Driver, sel:str, comp:str):
     ""
     q = """
