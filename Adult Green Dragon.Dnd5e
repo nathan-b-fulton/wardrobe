@@ -1,0 +1,243 @@
+{
+     "NPC":     true,
+     "hp":"207",
+     "hpmax":"306",
+     "ac":"19",
+     "str":"23",
+     "dex":"12",
+     "con":"21",
+     "int":"18",
+     "wis":"15",
+     "cha":"17",
+     "speed":"40",
+     "attacks":[
+          {
+               "name":"Bite",
+               "type":"Melee",
+               "range":"10/10",
+               "roll":"1D20+11",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Bite",
+                    "roll":"2d10+6",
+                    "type":"piercing",
+                    "link":{
+                         "name":"Bite",
+                         "roll":"2d6",
+                         "type":"poison"
+                    }
+               },
+               "futureUse_icon":"e_BITE"
+          },
+          {
+               "name":"Claw",
+               "type":"Melee",
+               "range":"5/5",
+               "roll":"1D20+11",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Claw",
+                    "roll":"2d6+6",
+                    "type":"slashing"
+               },
+               "futureUse_icon":"e_CLAW"
+          },
+          {
+               "name":"Tail",
+               "type":"Melee",
+               "range":"15/15",
+               "roll":"1D20+11",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Tail",
+                    "roll":"2d8+6",
+                    "type":"bludgeoning"
+               },
+               "futureUse_icon":"e_TAIL"
+          }
+     ],
+     "attacksDC":[
+          {
+               "name":"Frightful Presence",
+               "type":"Magic",
+               "range":"120/120",
+               "roll":"16/WIS/zero",
+               "conditions":"frightened",
+               "link":{
+                    "name":"Frightful Presence",
+                    "roll":"0",
+                    "type":""
+               },
+               "futureUse_icon":"_Magic"
+          },
+          {
+               "name":"Poison Breath",
+               "type":"Magic",
+               "range":"60/60",
+               "roll":"18/CON/half",
+               "link":{
+                    "name":"Poison Breath",
+                    "roll":"16d6",
+                    "type":"poison"
+               },
+               "futureUse_icon":"ex_POISON"
+          },
+          {
+               "name":"Wing Attack",
+               "type":"Magic",
+               "range":"10/10",
+               "roll":"19/DEX/zero",
+               "conditions":"prone",
+               "link":{
+                    "name":"Wing Attack",
+                    "roll":"2d6+6",
+                    "type":"magic bludgeoning"
+               },
+               "futureUse_icon":"ex_MAGIC_BLUDGEONING"
+          }
+     ],
+     "healing":[
+
+     ],
+     "saves":[
+          {
+               "name":"STR",
+               "type":"Public",
+               "roll":"1D20+6"
+          },
+          {
+               "name":"DEX",
+               "type":"Public",
+               "roll":"1D20+6"
+          },
+          {
+               "name":"CON",
+               "type":"Public",
+               "roll":"1D20+10"
+          },
+          {
+               "name":"INT",
+               "type":"Public",
+               "roll":"1D20+4"
+          },
+          {
+               "name":"WIS",
+               "type":"Public",
+               "roll":"1D20+7"
+          },
+          {
+               "name":"CHA",
+               "type":"Public",
+               "roll":"1D20+8"
+          }
+     ],
+     "skills":[
+          {
+               "name":"Initiative [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+1"
+          },
+          {
+               "name":"Acrobatics [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+1"
+          },
+          {
+               "name":"Animal Handling [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"Arcana [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+4"
+          },
+          {
+               "name":"Athletics [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+6"
+          },
+          {
+               "name":"Deception [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+8"
+          },
+          {
+               "name":"History [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+4"
+          },
+          {
+               "name":"Insight [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+7"
+          },
+          {
+               "name":"Intimidation [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+3"
+          },
+          {
+               "name":"Investigation [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+4"
+          },
+          {
+               "name":"Medicine [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"Nature [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+4"
+          },
+          {
+               "name":"Perception [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+12"
+          },
+          {
+               "name":"Performance [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+3"
+          },
+          {
+               "name":"Persuasion [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+8"
+          },
+          {
+               "name":"Religion [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+4"
+          },
+          {
+               "name":"Sleight of Hand [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+1"
+          },
+          {
+               "name":"Stealth [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+6"
+          },
+          {
+               "name":"Survival [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+2"
+          }
+     ],
+     "immunity":[
+          "poison"
+     ],
+     "resistance":[
+
+     ],
+     "vulnerability":[
+
+     ]
+}

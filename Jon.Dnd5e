@@ -1,0 +1,325 @@
+{
+     "NPC":false,
+     "hp":"18",
+     "hpmax":"28",
+     "ac":"15",
+     "str":"7",
+     "dex":"16",
+     "con":"12",
+     "int":"14",
+     "wis":"10",
+     "cha":"10",
+     "speed":"25",
+     "attacks":[
+          {
+               "name":"Dagger",
+               "type":"Melee",
+               "range":"5/5",
+               "roll":"1D20+5",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Dagger",
+                    "roll":"1d4+3",
+                    "type":"piercing"
+               }
+          },
+          {
+               "name":"Dagger & Sneak Attack",
+               "type":"Melee",
+               "range":"5/5",
+               "roll":"1D20+5",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Dagger",
+                    "roll":"1d4+3",
+                    "type":"piercing",
+                    "link":{
+                         "name":"Sneak attack",
+                         "roll":"1d4+3+1d6",
+                         "type":"piercing"
+                    }
+               }
+          },
+          {
+               "name":"Light Crossbow",
+               "type":"Range",
+               "range":"80/320",
+               "roll":"1D20+5",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Light Crossbow",
+                    "roll":"1d8+3",
+                    "type":"piercing"
+               }
+          },
+          {
+               "name":"Light Crossbow & Sneak Attack",
+               "type":"Range",
+               "range":"80/320",
+               "roll":"1D20+5",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Light Crossbow",
+                    "roll":"1d8+3",
+                    "type":"piercing",
+                    "link":{
+                         "name":"Sneak attack",
+                         "roll":"1d8+3+1d6",
+                         "type":"piercing"
+                    } 
+               }
+          },
+          {
+               "name":"Rat Dagger Flurry",
+               "type":"Range",
+               "range":"20/60",
+               "roll":"1D20+5",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Rat Dagger Flurry",
+                    "roll":"1d4+3",
+                    "type":"piercing"
+               }
+          },
+          {
+               "name":"Rat Dagger Flurry & Sneak Attack",
+               "type":"Range",
+               "range":"20/60",
+               "roll":"1D20+5",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Rat Dagger Flurry",
+                    "roll":"1d4+3",
+                    "type":"piercing",
+                    "link":{
+                         "name":"Sneak attack",
+                         "roll":"1d4+3+1d6",
+                         "type":"piercing"
+                    }
+               }
+          }
+     ],
+     "attacksDC":[
+          {
+               "name":"Burning Hands",
+               "type":"Magic",
+               "range":"15/15",
+               "roll":"17/DEX/half",
+               "link":{
+                    "name":"Burning Hands",
+                    "roll":"3d6",
+                    "type":"fire"
+               }
+            },
+			{
+               "name":"Create Bonfire",
+               "type":"Magic",
+               "range":"60/60",
+               "roll":"17/DEX/zero",
+               "link":{
+                    "name":"Create Bonfire",
+                    "roll":"2d8",
+                    "type":"fire"
+				}
+			},
+            {
+               "name":"Searing Smite",
+               "type":"Magic",
+               "range":"120/120",
+               "roll":"100",
+               "link":{
+                    "name":"Searing Smite",
+                    "roll":"1d6",
+                    "type":"fire"
+                }
+            },
+			           {
+               "name":"Hold Person",
+               "type":"Magic",
+               "range":"60/60",
+               "roll":"11/WIS/zero",
+               "condition":"paralyzed",
+               "link":{
+                    "name":"Hold Person",
+                    "roll":"0",
+                    "type":""
+                    }
+            }
+     ],
+     "healing":[
+	 			{
+				"name": "Cure Wounds",
+				"type": "Spell",
+				"roll": "1D8+3",
+				"link":
+				{
+					"name": "Song Of Rest",
+					"type": "Song",
+					"roll": "1D6"
+				}
+			}
+     ],
+     "saves":[
+          {
+               "name":"STR",
+               "type":"Public",
+               "roll":"1D20-2"
+          },
+          {
+               "name":"DEX",
+               "type":"Public",
+               "roll":"1D20+3"
+          },
+          {
+               "name":"CON",
+               "type":"Public",
+               "roll":"1D20+1"
+          },
+          {
+               "name":"INT",
+               "type":"Public",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"WIS",
+               "type":"Public",
+               "roll":"1D20+0"
+          },
+          {
+               "name":"CHA",
+               "type":"Public",
+               "roll":"1D20+0"
+          }
+     ],
+     "skills":[
+          {
+               "name":"Initiative",
+               "type":"Public",
+               "roll":"1D20+3"
+          },
+          {
+               "name":"Acrobatics",
+               "type":"Public",
+               "roll":"1D20+5"
+          },
+          {
+               "name":"Animal Handling",
+               "type":"Public",
+               "roll":"1D20+0"
+          },
+          {
+               "name":"Arcana",
+               "type":"Public",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"Athletics",
+               "type":"Public",
+               "roll":"1D20-2"
+          },
+          {
+               "name":"Deception",
+               "type":"Public",
+               "roll":"1D20+0"
+          },
+          {
+               "name":"History",
+               "type":"Public",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"Insight",
+               "type":"Public",
+               "roll":"1D20+0"
+          },
+          {
+               "name":"Intimidation",
+               "type":"Public",
+               "roll":"1D20+0"
+          },
+          {
+               "name":"Investigation",
+               "type":"Public",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"Medicine",
+               "type":"Public",
+               "roll":"1D20+0"
+          },
+          {
+               "name":"Nature",
+               "type":"Public",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"Perception",
+               "type":"Public",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"Performance",
+               "type":"Public",
+               "roll":"1D20+0"
+          },
+          {
+               "name":"Persuasion",
+               "type":"Public",
+               "roll":"1D20+0"
+          },
+          {
+               "name":"Religion",
+               "type":"Public",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"Sleight of Hand",
+               "type":"Public",
+               "roll":"1D20+3"
+          },
+          {
+               "name":"Stealth",
+               "type":"Public",
+               "roll":"1D20+7"
+          },
+          {
+               "name":"Survival",
+               "type":"Public",
+               "roll":"1D20+0"
+          },
+          {
+               "name":"Deception [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+0"
+          },
+          {
+               "name":"Insigth [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+0"
+          },
+          {
+               "name":"Perception [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+0"
+          }
+     ],
+     "immunity":[
+	"poison"
+     ],
+     "resistance":[
+          "lightning",
+          "thunder",
+          "bludgeoning",
+          "piercing",
+          "slashing"
+     ],
+     "vulnerability":[
+
+     ]
+}

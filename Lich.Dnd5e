@@ -1,0 +1,407 @@
+{
+     "NPC":     true,
+     "hp":"135",
+     "hpmax":"198",
+     "ac":"17",
+     "str":"11",
+     "dex":"16",
+     "con":"16",
+     "int":"20",
+     "wis":"14",
+     "cha":"16",
+     "speed":"30",
+     "attacks":[
+          {
+               "name":"Paralyzing Touch",
+               "type":"Melee",
+               "range":"5/5",
+               "roll":"1D20+12",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Paralyzing Touch",
+                    "roll":"3d6",
+                    "type":"cold"
+               },
+               "futureUse_icon":"ex_COLD"
+          },
+          {
+               "name":"Ray of Frost",
+               "type":"Magic",
+               "range":"60/60",
+               "roll":"1D20+12",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Ray of Frost",
+                    "roll":"4d8",
+                    "type":"cold"
+               },
+               "futureUse_icon":"ex_COLD"
+          },
+          {
+               "name":"Magic Missile",
+               "type":"Magic",
+               "range":"120/120",
+               "roll":"100",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Magic Missile",
+                    "roll":"1d4+1",
+                    "type":"force"
+               },
+               "futureUse_icon":"ex_FORCE"
+          },
+          {
+               "name":"Melf's Acid Arrow",
+               "type":"Magic",
+               "range":"90/90",
+               "roll":"1D20+12",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Melf's Acid Arrow",
+                    "roll":"4d4",
+                    "type":"acid"
+               },
+               "futureUse_icon":"ex_ACID"
+          },
+          {
+               "name":"Melf's Acid Arrow (end turn)",
+               "type":"Magic",
+               "range":"120/120",
+               "roll":"100",
+               "link":{
+                    "name":"Melf's Acid Arrow",
+                    "roll":"2d4",
+                    "type":"acid"
+               },
+               "futureUse_icon":"ex_ACID"
+          },
+          {
+               "name":"Dimension Door",
+               "type":"Magic",
+               "range":"120/120",
+               "roll":"100",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Dimension Door",
+                    "roll":"4d6",
+                    "type":"force"
+               },
+               "futureUse_icon":"ex_FORCE"
+          },
+          {
+               "name":"Plane Shift",
+               "type":"Magic",
+               "range":"5/5",
+               "roll":"1D20+12",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Plane Shift",
+                    "roll":"0",
+                    "type":""
+               },
+               "futureUse_icon":"_Magic"
+          }
+     ],
+     "attacksDC":[
+          {
+               "name":"Paralyzing Touch",
+               "type":"Magic",
+               "range":"120/120",
+               "roll":"18/CON/zero",
+               "conditions":"paralyzed",
+               "link":{
+                    "name":"Paralyzing Touch",
+                    "roll":"0",
+                    "type":""
+               },
+               "futureUse_icon":"_Magic"
+          },
+          {
+               "name":"Frightening Gaze",
+               "type":"Magic",
+               "range":"10/10",
+               "roll":"18/WIS/zero",
+               "conditions":"frightened",
+               "link":{
+                    "name":"Frightening Gaze",
+                    "roll":"0",
+                    "type":""
+               },
+               "futureUse_icon":"_Magic"
+          },
+          {
+               "name":"Disrupt Life",
+               "type":"Magic",
+               "range":"20/20",
+               "roll":"18/CON/half",
+               "link":{
+                    "name":"Disrupt Life",
+                    "roll":"6d6",
+                    "type":"necrotic"
+               },
+               "futureUse_icon":"ex_NECROTIC"
+          },
+          {
+               "name":"Thunderwave",
+               "type":"Magic",
+               "range":"15/15",
+               "roll":"20/CON/half",
+               "link":{
+                    "name":"Thunderwave",
+                    "roll":"2d8",
+                    "type":"thunder"
+               },
+               "futureUse_icon":"ex_THUNDER"
+          },
+          {
+               "name":"Fireball",
+               "type":"Magic",
+               "range":"150/150",
+               "roll":"20/DEX/half",
+               "link":{
+                    "name":"Fireball",
+                    "roll":"8d6",
+                    "type":"fire"
+               },
+               "futureUse_icon":"ex_FIRE"
+          },
+          {
+               "name":"Blight",
+               "type":"Magic",
+               "range":"30/30",
+               "roll":"20/CON/half",
+               "link":{
+                    "name":"Blight",
+                    "roll":"8d8",
+                    "type":"necrotic"
+               },
+               "futureUse_icon":"ex_NECROTIC"
+          },
+          {
+               "name":"Blight (max. damage)",
+               "type":"Magic",
+               "range":"30/30",
+               "roll":"20/CON/half",
+               "link":{
+                    "name":"Blight",
+                    "roll":"64",
+                    "type":"necrotic"
+               },
+               "futureUse_icon":"ex_NECROTIC"
+          },
+          {
+               "name":"Cloudkill",
+               "type":"Magic",
+               "range":"120/120",
+               "roll":"20/CON/half",
+               "link":{
+                    "name":"Cloudkill",
+                    "roll":"5d8",
+                    "type":"poison"
+               },
+               "futureUse_icon":"ex_POISON"
+          },
+          {
+               "name":"Disintegrate",
+               "type":"Magic",
+               "range":"60/60",
+               "roll":"20/DEX/zero",
+               "link":{
+                    "name":"Disintegrate",
+                    "roll":"10d6+40",
+                    "type":"force"
+               },
+               "futureUse_icon":"ex_FORCE"
+          },
+          {
+               "name":"Finger of Death",
+               "type":"Magic",
+               "range":"60/60",
+               "roll":"20/CON/half",
+               "link":{
+                    "name":"Finger of Death",
+                    "roll":"7d8+30",
+                    "type":"necrotic"
+               },
+               "futureUse_icon":"ex_NECROTIC"
+          },
+          {
+               "name":"Dominate Monster",
+               "type":"Magic",
+               "range":"60/60",
+               "roll":"20/WIS/zero",
+               "conditions":"charmed",
+               "link":{
+                    "name":"Dominate Monster",
+                    "roll":"0",
+                    "type":""
+               },
+               "futureUse_icon":"_Magic"
+          },
+          {
+               "name":"Power Word Stun",
+               "type":"Magic",
+               "range":"60/60",
+               "roll":"20/CON/zero",
+               "conditions":"stunned",
+               "link":{
+                    "name":"Power Word Stun",
+                    "roll":"0",
+                    "type":""
+               },
+               "futureUse_icon":"_Magic"
+          }
+     ],
+     "healing":[
+
+     ],
+     "saves":[
+          {
+               "name":"STR",
+               "type":"Public",
+               "roll":"1D20+0"
+          },
+          {
+               "name":"DEX",
+               "type":"Public",
+               "roll":"1D20+3"
+          },
+          {
+               "name":"CON",
+               "type":"Public",
+               "roll":"1D20+10"
+          },
+          {
+               "name":"INT",
+               "type":"Public",
+               "roll":"1D20+12"
+          },
+          {
+               "name":"WIS",
+               "type":"Public",
+               "roll":"1D20+9"
+          },
+          {
+               "name":"CHA",
+               "type":"Public",
+               "roll":"1D20+3"
+          }
+     ],
+     "skills":[
+          {
+               "name":"Initiative [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+3"
+          },
+          {
+               "name":"Acrobatics [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+3"
+          },
+          {
+               "name":"Animal Handling [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"Arcana [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+19"
+          },
+          {
+               "name":"Athletics [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+0"
+          },
+          {
+               "name":"Deception [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+3"
+          },
+          {
+               "name":"History [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+12"
+          },
+          {
+               "name":"Insight [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+9"
+          },
+          {
+               "name":"Intimidation [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+3"
+          },
+          {
+               "name":"Investigation [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+5"
+          },
+          {
+               "name":"Medicine [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"Nature [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+5"
+          },
+          {
+               "name":"Perception [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+9"
+          },
+          {
+               "name":"Performance [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+3"
+          },
+          {
+               "name":"Persuasion [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+3"
+          },
+          {
+               "name":"Religion [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+5"
+          },
+          {
+               "name":"Sleight of Hand [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+3"
+          },
+          {
+               "name":"Stealth [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+3"
+          },
+          {
+               "name":"Survival [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+2"
+          }
+     ],
+     "immunity":[
+          "poison",
+          "bludgeoning",
+          "piercing",
+          "slashing"
+     ],
+     "resistance":[
+          "cold",
+          "lightning",
+          "necrotic"
+     ],
+     "vulnerability":[
+
+     ]
+}

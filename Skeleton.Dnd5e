@@ -1,0 +1,188 @@
+{
+     "NPC":     true,
+     "hp":"13",
+     "hpmax":"20",
+     "ac":"13",
+     "str":"10",
+     "dex":"14",
+     "con":"15",
+     "int":"6",
+     "wis":"8",
+     "cha":"5",
+     "speed":"30",
+     "attacks":[
+          {
+               "name":"Shortsword",
+               "type":"Melee",
+               "range":"5/5",
+               "roll":"1D20+4",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Shortsword",
+                    "roll":"1d6+2",
+                    "type":"piercing"
+               },
+               "futureUse_icon":"e_SHORTSWORD"
+          },
+          {
+               "name":"Shortbow",
+               "type":"Range",
+               "range":"80/320",
+               "roll":"1D20+4",
+               "critrangemin":"20",
+               "critmultip":"2",
+               "link":{
+                    "name":"Shortbow",
+                    "roll":"1d6+2",
+                    "type":"piercing"
+               },
+               "futureUse_icon":"Range"
+          }
+     ],
+     "attacksDC":[
+
+     ],
+     "healing":[
+
+     ],
+     "saves":[
+          {
+               "name":"STR",
+               "type":"Public",
+               "roll":"1D20+0"
+          },
+          {
+               "name":"DEX",
+               "type":"Public",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"CON",
+               "type":"Public",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"INT",
+               "type":"Public",
+               "roll":"1D20-2"
+          },
+          {
+               "name":"WIS",
+               "type":"Public",
+               "roll":"1D20-1"
+          },
+          {
+               "name":"CHA",
+               "type":"Public",
+               "roll":"1D20-3"
+          }
+     ],
+     "skills":[
+          {
+               "name":"Initiative [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"Acrobatics [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"Animal Handling [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20-1"
+          },
+          {
+               "name":"Arcana [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20-2"
+          },
+          {
+               "name":"Athletics [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+0"
+          },
+          {
+               "name":"Deception [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20-3"
+          },
+          {
+               "name":"History [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20-2"
+          },
+          {
+               "name":"Insight [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20-1"
+          },
+          {
+               "name":"Intimidation [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20-3"
+          },
+          {
+               "name":"Investigation [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20-2"
+          },
+          {
+               "name":"Medicine [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20-1"
+          },
+          {
+               "name":"Nature [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20-2"
+          },
+          {
+               "name":"Perception [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20-1"
+          },
+          {
+               "name":"Performance [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20-3"
+          },
+          {
+               "name":"Persuasion [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20-3"
+          },
+          {
+               "name":"Religion [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20-2"
+          },
+          {
+               "name":"Sleight of Hand [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"Stealth [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20+2"
+          },
+          {
+               "name":"Survival [GM]",
+               "type":"Secret,GM",
+               "roll":"1D20-1"
+          }
+     ],
+     "immunity":[
+          "poison"
+     ],
+     "resistance":[
+
+     ],
+     "vulnerability":[
+          "magic bludgeoning",
+          "bludgeoning"
+     ]
+}
